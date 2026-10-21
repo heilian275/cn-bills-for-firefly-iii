@@ -1,64 +1,66 @@
 # cn-bills-for-firefly-iii
 
+English | [简体中文](README.zh-CN.md)
+
 [![skills.sh installs](https://skills.sh/b/heilian275/cn-bills-for-firefly-iii)](https://skills.sh/heilian275/cn-bills-for-firefly-iii)
 
-把支付宝、微信支付（Alipay / WeChat Pay）导出的 csv/xlsx 账单逐笔分类，导入你自托管的 [Firefly III](https://firefly-iii.org/)。退款配对、复合支付、自充值识别这些中国账单里常见的情况会单独处理；分类照你已有的账户和分类来；写入前给你看预览。
+Takes the CSV and XLSX statements exported by Alipay and WeChat Pay, classifies every transaction, and imports them into your self-hosted [Firefly III](https://firefly-iii.org/). Refund pairs, split payments, and self-top-up detection — cases that are common in Chinese statements — are handled separately. Categorization follows the accounts and categories you already have, and you see a preview before anything is written.
 
-这个 skill 来自两个月的实际导入。账单解析只是第一步，真正花时间的是格式细节、退款和复合支付的对应关系，以及写库前的判断。
+The skill comes out of two months of real imports. Parsing the statements is only the first step; most of the effort goes into format details, matching refunds and split payments, and the judgement calls before writing to the ledger.
 
-## 目录
+## Layout
 
-- `SKILL.md`：入口，放流程、安全门和每一步该做什么。
-- `references/`：按需读取的细节。`bill-formats.md` 是支付宝和微信的格式与坑，`special-cases.md` 是退款、复合支付、自充值这些形态，`mapping-json.md` 是分类产物的字段约定，`firefly-iii.md` 是交易模型和接口查法。
-- `scripts/`：勘察、预览、查重、导入、验证。
+- `SKILL.md`: the entry point. The workflow, the safety gates, and what to do at each step.
+- `references/`: details loaded on demand. `bill-formats.md` covers the Alipay and WeChat file layouts and their pitfalls, `special-cases.md` covers refunds, split payments, and self-top-ups, `mapping-json.md` defines the classification output, and `firefly-iii.md` covers the transaction model and how to look up the API.
+- `scripts/`: inspection, preview, duplicate check, import, and verification.
 
-## 安装
+## Installation
 
-Skills CLI（支持 Claude Code、Codex、ZCode 等 agent harness）：
+Skills CLI (works with Claude Code, Codex, ZCode, and other agent harnesses):
 
 ```bash
 npx skills add heilian275/cn-bills-for-firefly-iii --global
 ```
 
-Claude Code 插件方式：
+As a Claude Code plugin:
 
 ```text
 /plugin marketplace add heilian275/cn-bills-for-firefly-iii
 /plugin install cn-bills-for-firefly-iii@cn-bills-for-firefly-iii
 ```
 
-手动安装：克隆或下载本仓库，把 SKILL.md 所在的目录拷进你的 agent 的 skills 目录（如 `~/.claude/skills/`、`~/.zcode/skills/`）。
+Manual install: clone or download this repository, then copy the directory containing `SKILL.md` into your agent's skills directory (for example `~/.claude/skills/` or `~/.zcode/skills/`).
 
-## 使用
+## Usage
 
-对 agent 说「把这份支付宝账单导入我的 Firefly III」并给出文件路径。每次导入大致是：
+Tell your agent "import this Alipay statement into my Firefly III" and give it the file path. Each import roughly goes like this:
 
-1. 脚本从你指定的文件或环境变量读 token，取回账单特征和你实例里的账户、分类、近期交易；
-2. agent 对照这些信息逐笔分类。skill 不内置分类规则，照你已有的结构来；
-3. 预览页列出中低置信和跳过的交易，你改完并批准后才写库；写入后按批次标签验证。
+1. The scripts read the token from the file or environment variable you point them at, then fetch the statement characteristics plus the accounts, categories, and recent transactions from your instance;
+2. the agent classifies every transaction against that information. The skill ships no classification rules; it follows the structure you already have;
+3. the preview lists mid- and low-confidence items together with skipped transactions. Nothing is written until you have edited and approved it; after the import, the result is verified by batch tag.
 
-无效交易、退款对这类条件性事项不会中途打断你。agent 先给最佳处理并标注疑点，统一在预览页裁决。
+Conditional cases such as voided transactions and refund pairs do not interrupt you mid-flow. The agent picks the best treatment, notes the doubt, and leaves the decision to the preview.
 
-前提是你已经跑着自己的 Firefly III，并且有一套账户和分类。skill 不替你建分类，也不预设任何结构。
+Prerequisites: you already run Firefly III and have a set of accounts and categories. The skill does not create categories for you and does not assume any structure.
 
-## 安全须知
+## Privacy and safety
 
-账单内容（商家、金额、时间、订单号、支付账户尾号）会进入 AI 上下文，模型服务商可以看到。skill 会在开始前告知，并取得你的明确同意后才开始。在意隐私可以改用本地模型，或先做脱敏预处理。
+Statement contents (merchant, amount, time, order number, last digits of the payment account) enter the AI context, where the model provider can see them. The skill tells you this before it starts and only begins after you explicitly agree. If that matters to you, use a local model or anonymize the statements first.
 
-Firefly III API token 不进入 AI 上下文。所有脚本从你指定的文件或环境变量读，调试输出只有 token 长度或 HTTP 状态码。
+The Firefly III API token never enters the AI context. Every script reads it from the file or environment variable you specify, and debugging output is limited to the token length or HTTP status codes.
 
-写入前必须经你批准；除此之外没有别的写库入口。
+Nothing is written without your approval; there is no other write path.
 
-本 skill 不收集、不上传任何数据；脚本只与你指定的 Firefly III 实例通信。账单内容会进入 AI 上下文，这一点见本节第一段。
+The skill collects and uploads nothing; its scripts only talk to the Firefly III instance you specify. Statement content does enter the AI context, as described in the first paragraph of this section.
 
-按现状提供（MIT）。导入前核对预览，Firefly III 数据请定期备份。
+Provided as is (MIT). Review the preview before importing, and back up your Firefly III data regularly.
 
-## 版本历史
+## Version history
 
 <details>
-<summary>显示版本记录</summary>
+<summary>Show version history</summary>
 
-- 0.1.0：首个公开版本。四层测试（结构校验 / 行为矩阵 / 回归 / 跨 harness 冒烟）通过；在 Claude Code 与 ZCode 双 harness 实测完成。
+- 0.1.0: first public release. Passed four layers of testing (structure checks, behavior matrix, regression, cross-harness smoke) and was verified end to end on both Claude Code and ZCode.
 
 </details>
 
