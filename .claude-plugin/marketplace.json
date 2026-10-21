@@ -1,0 +1,12 @@
+{
+  "name": "cn-bills-for-firefly-iii",
+  "owner": {"name": "heilian275", "url": "https://github.com/heilian275"},
+  "description": "把支付宝、微信支付账单导入自托管 Firefly III 的 skill（单插件市场）",
+  "plugins": [
+    {
+      "name": "cn-bills-for-firefly-iii",
+      "source": "./",
+      "description": "把支付宝、微信支付账单导入自托管 Firefly III。"
+    }
+  ]
+}

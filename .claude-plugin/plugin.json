@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "cn-bills-for-firefly-iii",
+  "description": "把支付宝、微信支付导出的账单导入自托管的 Firefly III：逐笔分类，处理退款、复合支付、自充值等中国账单特有的情况，写入前由用户确认。",
+  "version": "0.1.0",
+  "author": {
+    "name": "heilian275",
+    "url": "https://github.com/heilian275"
+  },
+  "homepage": "https://github.com/heilian275/cn-bills-for-firefly-iii",
+  "repository": "https://github.com/heilian275/cn-bills-for-firefly-iii",
+  "license": "MIT",
+  "keywords": ["firefly-iii", "alipay", "wechat-pay", "bills", "personal-finance", "agent-skills"],
+  "skills": ["./"]
+}
