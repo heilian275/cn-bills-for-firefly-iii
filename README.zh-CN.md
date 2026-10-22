@@ -10,9 +10,12 @@
 
 ## 目录
 
-- `SKILL.md`：入口，放流程、安全门和每一步该做什么。
-- `references/`：按需读取的细节。`bill-formats.md` 是支付宝和微信的格式与坑，`special-cases.md` 是退款、复合支付、自充值这些形态，`mapping-json.md` 是分类产物的字段约定，`firefly-iii.md` 是交易模型和接口查法。
-- `scripts/`：勘察、预览、查重、导入、验证。
+skill 本体在 `skills/cn-bills-for-firefly-iii/`，skills CLI 只拷这一层，不会把仓库里的其他文件一起装进 skills 目录。
+
+- `skills/cn-bills-for-firefly-iii/SKILL.md`：入口，放流程、安全门和每一步该做什么。
+- `skills/cn-bills-for-firefly-iii/references/`：按需读取的细节。`bill-formats.md` 是支付宝和微信的格式与坑，`special-cases.md` 是退款、复合支付、自充值这些形态，`mapping-json.md` 是分类产物的字段约定，`firefly-iii.md` 是交易模型和接口查法。
+- `skills/cn-bills-for-firefly-iii/scripts/`：勘察、预览、查重、导入、验证。
+- `.claude-plugin/`、`README.md`、`LICENSE`：仓库打包用，不属于 skill 本体。
 
 ## 安装
 
@@ -29,7 +32,7 @@ Claude Code 插件方式：
 /plugin install cn-bills-for-firefly-iii@cn-bills-for-firefly-iii
 ```
 
-手动安装：克隆或下载本仓库，把 SKILL.md 所在的目录拷进你的 agent 的 skills 目录（如 `~/.claude/skills/`、`~/.zcode/skills/`）。
+手动安装：克隆或下载本仓库，把 `skills/cn-bills-for-firefly-iii` 这个目录拷进你的 agent 的 skills 目录（如 `~/.claude/skills/`、`~/.zcode/skills/`）。
 
 ## 使用
 

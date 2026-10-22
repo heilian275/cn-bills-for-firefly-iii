@@ -10,9 +10,12 @@ The skill comes out of two months of real imports. Parsing the statements is onl
 
 ## Layout
 
-- `SKILL.md`: the entry point. The workflow, the safety gates, and what to do at each step.
-- `references/`: details loaded on demand. `bill-formats.md` covers the Alipay and WeChat file layouts and their pitfalls, `special-cases.md` covers refunds, split payments, and self-top-ups, `mapping-json.md` defines the classification output, and `firefly-iii.md` covers the transaction model and how to look up the API.
-- `scripts/`: inspection, preview, duplicate check, import, and verification.
+The skill itself lives in `skills/cn-bills-for-firefly-iii/`, so a skills CLI copies only those files and not the repository around them.
+
+- `skills/cn-bills-for-firefly-iii/SKILL.md`: the entry point. The workflow, the safety gates, and what to do at each step.
+- `skills/cn-bills-for-firefly-iii/references/`: details loaded on demand. `bill-formats.md` covers the Alipay and WeChat file layouts and their pitfalls, `special-cases.md` covers refunds, split payments, and self-top-ups, `mapping-json.md` defines the classification output, and `firefly-iii.md` covers the transaction model and how to look up the API.
+- `skills/cn-bills-for-firefly-iii/scripts/`: inspection, preview, duplicate check, import, and verification.
+- `.claude-plugin/`, `README.md`, `LICENSE`: repository packaging; not part of the skill.
 
 ## Installation
 
@@ -29,7 +32,7 @@ As a Claude Code plugin:
 /plugin install cn-bills-for-firefly-iii@cn-bills-for-firefly-iii
 ```
 
-Manual install: clone or download this repository, then copy the directory containing `SKILL.md` into your agent's skills directory (for example `~/.claude/skills/` or `~/.zcode/skills/`).
+Manual install: clone or download this repository, then copy the `skills/cn-bills-for-firefly-iii` directory into your agent's skills directory (for example `~/.claude/skills/` or `~/.zcode/skills/`).
 
 ## Usage
 

@@ -10,6 +10,5 @@
   "homepage": "https://github.com/heilian275/cn-bills-for-firefly-iii",
   "repository": "https://github.com/heilian275/cn-bills-for-firefly-iii",
   "license": "MIT",
-  "keywords": ["firefly-iii", "alipay", "wechat-pay", "bills", "personal-finance", "agent-skills"],
-  "skills": ["./"]
+  "keywords": ["firefly-iii", "alipay", "wechat-pay", "bills", "personal-finance", "agent-skills"]
 }
